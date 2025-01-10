@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed;
     private Rigidbody2D rb;
     private Vector2 _movementInput;
+    private Vector2 _smoothedMovementInput;
 
     void Awake()
     {
@@ -18,7 +19,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        rb.velocity = _movementInput * moveSpeed;
+        _smoothedMovementInput = Vector2.SmoothDamp(_smoothedMovementInput, _movementInput, ref _smoothedMovementInput, 0.1f);
+        rb.velocity = _smoothedMovementInput * moveSpeed;
     }
 
     private void OnMove(InputValue inputValue)
