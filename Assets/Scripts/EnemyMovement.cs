@@ -10,10 +10,13 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private float rotationSpeed;
 
+    [SerializeField]
+    private float screenBorder;
     private Rigidbody2D rb;
     private PlayerAwarenessController _playerAwarenessController;
     private Vector2 _targetDirection;
     private float changeDirectionCooldown;
+    private Camera mainCamera;
 
     // Start is called before the first frame update
     private void Awake()
@@ -21,6 +24,7 @@ public class EnemyMovement : MonoBehaviour
         rb  = GetComponent<Rigidbody2D>();
         _playerAwarenessController = GetComponent<PlayerAwarenessController>();
         _targetDirection = transform.up;
+        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -34,6 +38,7 @@ public class EnemyMovement : MonoBehaviour
     private void UpdateTargetDirection(){
         HandleRandomDirectionChange();
         HandlePlayerTargeting();
+        HandleEnemyOffScreen();
     }
 
     private void HandleRandomDirectionChange(){
@@ -51,6 +56,18 @@ public class EnemyMovement : MonoBehaviour
     private void HandlePlayerTargeting(){
         if(_playerAwarenessController.AwareOfPlayer){
             _targetDirection = _playerAwarenessController.DirectionToPlayer;
+        }
+    }
+
+    private void HandleEnemyOffScreen(){
+        Vector2 screenPosition = mainCamera.WorldToScreenPoint(transform.position);
+
+        if((screenPosition.x < screenBorder && _targetDirection.x < 0) || (screenPosition.x > mainCamera.pixelWidth - screenBorder && _targetDirection.x > 0)){
+            _targetDirection = new Vector2(_targetDirection.x * -1, _targetDirection.y);
+        }
+
+        if((screenPosition.y < screenBorder && _targetDirection.y < 0) || (screenPosition.y > mainCamera.pixelHeight - screenBorder && _targetDirection.y > 0)){
+            _targetDirection = new Vector2(_targetDirection.x, _targetDirection.y * -1);
         }
     }
 

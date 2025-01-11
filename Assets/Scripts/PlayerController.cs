@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 _movementInput;
     private Vector2 _smoothedMovementInput;
+    private Vector2 _movementInputSmoothVelocity;
     private Camera mainCamera;
 
     void Awake()
@@ -46,7 +47,8 @@ public class PlayerController : MonoBehaviour
 
     private void SetPlayerVelocity()
     {
-        _smoothedMovementInput = Vector2.SmoothDamp(_smoothedMovementInput, _movementInput, ref _smoothedMovementInput, 0.1f);
+        _smoothedMovementInput = Vector2.SmoothDamp(_smoothedMovementInput, _movementInput, ref _movementInputSmoothVelocity, 0.1f);
+        
         rb.velocity = _smoothedMovementInput * moveSpeed;
     
         PreventPlayerGoingOffScreen();
@@ -55,13 +57,13 @@ public class PlayerController : MonoBehaviour
     private void PreventPlayerGoingOffScreen(){
         Vector2 screenPosition = mainCamera.WorldToScreenPoint(transform.position);
 
-        if((screenPosition.x < 0 && rb.velocity.x < 0)
-        || (screenPosition.x > mainCamera.pixelWidth && rb.velocity.x > 0)){
+        if((screenPosition.x < screenBorder && rb.velocity.x < 0)
+        || (screenPosition.x > mainCamera.pixelWidth - screenBorder && rb.velocity.x > 0)){
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
-        if((screenPosition.y < 0 && rb.velocity.y < 0)
-        || (screenPosition.y > mainCamera.pixelHeight && rb.velocity.y > 0)){
+        if((screenPosition.y < screenBorder && rb.velocity.y < 0)
+        || (screenPosition.y > mainCamera.pixelHeight - screenBorder && rb.velocity.y > 0)){
             rb.velocity = new Vector2(rb.velocity.x, 0);
         }
     }
