@@ -13,12 +13,14 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerAwarenessController _playerAwarenessController;
     private Vector2 _targetDirection;
+    private float changeDirectionCooldown;
 
     // Start is called before the first frame update
     private void Awake()
     {
         rb  = GetComponent<Rigidbody2D>();
         _playerAwarenessController = GetComponent<PlayerAwarenessController>();
+        _targetDirection = transform.up;
     }
 
     // Update is called once per frame
@@ -30,18 +32,29 @@ public class EnemyMovement : MonoBehaviour
     }
 
     private void UpdateTargetDirection(){
+        HandleRandomDirectionChange();
+        HandlePlayerTargeting();
+    }
+
+    private void HandleRandomDirectionChange(){
+        changeDirectionCooldown -= Time.deltaTime;
+
+        if(changeDirectionCooldown <= 0){
+            float angleChange = Random.Range(-90f, 90);
+            Quaternion rotation = Quaternion.AngleAxis(angleChange, Vector3.forward);
+            _targetDirection = rotation * _targetDirection;
+
+            changeDirectionCooldown = Random.Range(1f, 5f);
+        }
+    }
+
+    private void HandlePlayerTargeting(){
         if(_playerAwarenessController.AwareOfPlayer){
             _targetDirection = _playerAwarenessController.DirectionToPlayer;
-        } else {
-            _targetDirection = Vector2.zero;
         }
     }
 
     private void RotateTowardsTarget(){
-        if(_targetDirection == Vector2.zero){
-            return;
-        }
-
         Quaternion targetRotation = Quaternion.LookRotation(transform.forward, _targetDirection);
         Quaternion rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
@@ -49,13 +62,6 @@ public class EnemyMovement : MonoBehaviour
     }
 
     private void SetVelocity(){
-        
-        if(_targetDirection == Vector2.zero){
-            rb.velocity = Vector2.zero;
-        }
-        else{
             rb.velocity = _targetDirection * moveSpeed;
-        }
-
     }
 }
