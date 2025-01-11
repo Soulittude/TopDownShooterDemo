@@ -9,13 +9,17 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed;
     [SerializeField]
     private float rotationSpeed;
+    [SerializeField]
+    private float screenBorder;
     private Rigidbody2D rb;
     private Vector2 _movementInput;
     private Vector2 _smoothedMovementInput;
+    private Camera mainCamera;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -44,5 +48,21 @@ public class PlayerController : MonoBehaviour
     {
         _smoothedMovementInput = Vector2.SmoothDamp(_smoothedMovementInput, _movementInput, ref _smoothedMovementInput, 0.1f);
         rb.velocity = _smoothedMovementInput * moveSpeed;
+    
+        PreventPlayerGoingOffScreen();
+    }
+
+    private void PreventPlayerGoingOffScreen(){
+        Vector2 screenPosition = mainCamera.WorldToScreenPoint(transform.position);
+
+        if((screenPosition.x < 0 && rb.velocity.x < 0)
+        || (screenPosition.x > mainCamera.pixelWidth && rb.velocity.x > 0)){
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+
+        if((screenPosition.y < 0 && rb.velocity.y < 0)
+        || (screenPosition.y > mainCamera.pixelHeight && rb.velocity.y > 0)){
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
     }
 }
