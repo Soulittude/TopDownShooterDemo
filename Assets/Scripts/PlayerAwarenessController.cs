@@ -15,7 +15,7 @@ public class PlayerAwarenessController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        _player = FindObjectOfType<PlayerController>().transform;
+        _player = FindObjectOfType<PlayerMovement>().transform;
     }
 
     // Update is called once per frame
