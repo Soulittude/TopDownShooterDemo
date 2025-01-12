@@ -17,10 +17,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _movementInputSmoothVelocity;
     private Camera mainCamera;
 
+    private Animator animator;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,12 +32,14 @@ public class PlayerMovement : MonoBehaviour
     {
         SetPlayerVelocity();
         RotateInDirectionOfInput();
-
+        SetAnimation();
     }
 
-    private void OnMove(InputValue inputValue)
+    private void SetAnimation()
     {
-        _movementInput = inputValue.Get<Vector2>();
+        bool isMoving = _movementInput != Vector2.zero;
+
+        animator.SetBool("IsMoving", isMoving);
     }
 
     private void RotateInDirectionOfInput(){
