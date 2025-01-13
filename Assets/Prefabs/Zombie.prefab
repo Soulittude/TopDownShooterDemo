@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 3606693750593198623}
   - component: {fileID: 3575136462244122511}
   - component: {fileID: 4369408502534606485}
+  - component: {fileID: 3998853273661662957}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -379,6 +380,18 @@ MonoBehaviour:
           m_StringArgument: OnDied
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3998853273661662957}
+        m_TargetAssemblyTypeName: EnemyCollectableDrop, Assembly-CSharp
+        m_MethodName: RandomlyDropCollectable
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: OnDied
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -410,3 +423,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killScore: 10
+--- !u!114 &3998853273661662957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3938978261076278126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f7dc34505643c24f836c4dff9c34188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropChance: 0.3
