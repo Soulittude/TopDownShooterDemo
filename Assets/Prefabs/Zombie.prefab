@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 278789949970649392}
   - component: {fileID: 3606693750593198623}
   - component: {fileID: 3575136462244122511}
+  - component: {fileID: 4369408502534606485}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -366,6 +367,18 @@ MonoBehaviour:
           m_StringArgument: OnDied
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4369408502534606485}
+        m_TargetAssemblyTypeName: EnemyScoreAllocator, Assembly-CSharp
+        m_MethodName: AllocateScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: OnDied
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -384,3 +397,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4b7b25f22f23347af1bf821bd0b20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4369408502534606485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3938978261076278126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa360a06dddc2c449851291d28e5094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killScore: 10
